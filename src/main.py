@@ -71,5 +71,5 @@ class Category:
             price = i.price
             name = i.name
             rest = i.quantity
-            result.append(f'{name}, {price} рублей. Остаток: {rest} шт')
+            result.append(f'{name}, {price} руб. Остаток: {rest} шт')
         return '\n'.join(result)
