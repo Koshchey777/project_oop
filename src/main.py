@@ -58,6 +58,7 @@ class Category:
 
     def add_product(self, Product):
         self.__products.append(Product)
+        Category.product_count += 1
 
     @property
     def products(self):
@@ -70,5 +71,5 @@ class Category:
             price = i.price
             name = i.name
             rest = i.quantity
-            result.append(f'{name}: {price} рублей. Остаток: {rest} шт')
+            result.append(f'{name}, {price} рублей. Остаток: {rest} шт')
         return '\n'.join(result)

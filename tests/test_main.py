@@ -103,7 +103,7 @@ def test_add_product(category):
 def test_list_products(category):
     result = category.list_products
     assert isinstance(result, str)
-    assert "Apple: 10.0 рублей. Остаток: 5 шт" in result
-    assert "Orange: 15.0 рублей. Остаток: 3 шт" in result
-    assert "Pear: 12.0 рублей. Остаток: 4 шт" in result
+    assert "Apple, 10.0 рублей. Остаток: 5 шт" in result
+    assert "Orange, 15.0 рублей. Остаток: 3 шт" in result
+    assert "Pear, 12.0 рублей. Остаток: 4 шт" in result
     assert result.count("\n") == 2
