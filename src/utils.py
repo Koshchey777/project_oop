@@ -3,10 +3,8 @@ import os
 
 
 def read_json(path: str) -> dict:
-    '''Функция для чтения файлов json'''
+    """Функция для чтения файлов json"""
     full_path = os.path.abspath(path)
     with open(full_path, "r", encoding="utf-8") as f:
         read_data = json.load(f)
         return read_data
-
-print(read_json('../data/products.json'))
