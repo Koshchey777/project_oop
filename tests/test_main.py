@@ -1,4 +1,6 @@
-from src.main import Category, Product
+import pytest
+
+from src.main import Category, IterProducts, Product
 
 
 def test_init_product(product):
@@ -107,3 +109,71 @@ def test_list_products(category):
     assert "Orange, 15.0 руб. Остаток: 3 шт" in result
     assert "Pear, 12.0 руб. Остаток: 4 шт" in result
     assert result.count("\n") == 2
+
+
+def test_str(category):
+    assert str(category) == "Test Category, количество продуктов: 12 шт."
+
+
+def test_add(product, product_):
+    res = product + product_
+    assert res == 2140.0
+
+
+def test_iter_returns_self(category):
+    iterator = IterProducts(category)
+    assert iter(iterator) is iterator
+
+
+def test_iter_products_first_item(category):
+    iterator = IterProducts(category)
+    first = next(iterator)
+    assert first.name == "Apple"
+
+
+def test_iter_products_all_items(category):
+    iterator = IterProducts(category)
+    names = [next(iterator).name for _ in range(3)]
+    assert names == ["Apple", "Orange", "Pear"]
+
+
+def test_iter_products_all_fields(category):
+    iterator = IterProducts(category)
+    product = next(iterator)
+    assert product.name == "Apple"
+    assert product.description == "Red fruit"
+    assert product.price == 10.0
+    assert product.quantity == 5
+
+
+def test_iter_stop_iteration(category):
+    """После последнего элемента raise StopIteration."""
+    iterator = IterProducts(category)
+    for _ in range(3):
+        next(iterator)
+    with pytest.raises(StopIteration):
+        next(iterator)
+
+
+def test_iter_loop(category):
+    iterator = IterProducts(category)
+    names = [product.name for product in iterator]
+    assert names == ["Apple", "Orange", "Pear"]
+
+
+def test_iter_empty_category():
+    empty_cat = Category("Empty", "No products", [])
+    iterator = IterProducts(empty_cat)
+    with pytest.raises(StopIteration):
+        next(iterator)
+
+
+def test_iter_independent_instances(category):
+    iter1 = IterProducts(category)
+    iter2 = IterProducts(category)
+
+    next(iter1)
+    next(iter1)
+
+    assert next(iter2).name == "Apple"
+    assert next(iter1).name == "Pear"

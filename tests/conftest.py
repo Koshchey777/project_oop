@@ -16,6 +16,11 @@ def product():
 
 
 @pytest.fixture
+def product_():
+    return Product("Test Product", "Test description", 10.7, 100)
+
+
+@pytest.fixture
 def category():
     p1 = Product("Apple", "Red fruit", 10.0, 5)
     p2 = Product("Orange", "Citrus fruit", 15.0, 3)
