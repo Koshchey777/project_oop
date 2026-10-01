@@ -13,6 +13,9 @@ class Product:
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
+    def __add__(self, other):
+        return (self.__price * self.quantity) + (other.price * other.quantity)
+
     @classmethod
     def new_product(cls, product_data: dict, goods_list: list):
         name = product_data["name"]
@@ -62,14 +65,6 @@ class Category:
     def __str__(self):
         res = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {res} шт."
-
-    def __add__(self, other):
-        total_cost = 0
-        for product in self.__products:
-            total_cost += product.price * product.quantity
-        for product in other.__products:
-            total_cost += product.price * product.quantity
-        return total_cost
 
     def add_product(self, Product):
         self.__products.append(Product)

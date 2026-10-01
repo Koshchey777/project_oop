@@ -115,9 +115,9 @@ def test_str(category):
     assert str(category) == "Test Category, количество продуктов: 12 шт."
 
 
-def test_add(category, category_):
-    res = category + category_
-    assert res == 286
+def test_add(product, product_):
+    res = product + product_
+    assert res == 2140.0
 
 
 def test_iter_returns_self(category):
