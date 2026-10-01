@@ -10,6 +10,9 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
     @classmethod
     def new_product(cls, product_data: dict, goods_list: list):
         name = product_data["name"]
@@ -56,6 +59,18 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products)
 
+    def __str__(self):
+        res = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {res} шт."
+
+    def __add__(self, other):
+        total_cost = 0
+        for product in self.__products:
+            total_cost += product.price * product.quantity
+        for product in other.__products:
+            total_cost += product.price * product.quantity
+        return total_cost
+
     def add_product(self, Product):
         self.__products.append(Product)
         Category.product_count += 1
@@ -66,10 +81,21 @@ class Category:
 
     @property
     def list_products(self):
-        result = []
-        for i in self.__products:
-            price = i.price
-            name = i.name
-            rest = i.quantity
-            result.append(f'{name}, {price} руб. Остаток: {rest} шт')
-        return '\n'.join(result)
+        return "\n".join(str(product) for product in self.__products)
+
+
+class IterProducts:
+    def __init__(self, category: Category):
+        self.category = category
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index < len(self.category.products):
+            product = self.category.products[self.index]
+            self.index += 1
+            return product
+        else:
+            raise StopIteration
