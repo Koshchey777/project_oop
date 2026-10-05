@@ -56,7 +56,7 @@ def test_new_product_updates_existing_lower_price():
     data = {"name": "Apple", "description": "Red fruit", "price": 10.0, "quantity": 2}
     result = Product.new_product(data, goods)
 
-    assert result.price == 15.0  # max(15, 10)
+    assert result.price == 15.0
     assert result.quantity == 7
 
 
@@ -73,7 +73,7 @@ def test_price_setter_zero(product, capsys):
     product.price = 0
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
-    assert product.price == 10.7  # цена не изменилась
+    assert product.price == 10.7
 
 
 def test_price_setter_negative(product, capsys):
@@ -120,6 +120,18 @@ def test_add(product, product_):
     assert res == 2140.0
 
 
+def test_add_raise(product):
+    error_ = 1
+    with pytest.raises(TypeError):
+        res = product + error_
+
+
+def test_add_product_raise(category):
+    error_ = 1
+    res = category.add_product(error_)
+    assert res == "Складывать можно только экземпляры класса Product"
+
+
 def test_iter_returns_self(category):
     iterator = IterProducts(category)
     assert iter(iterator) is iterator
@@ -147,7 +159,6 @@ def test_iter_products_all_fields(category):
 
 
 def test_iter_stop_iteration(category):
-    """После последнего элемента raise StopIteration."""
     iterator = IterProducts(category)
     for _ in range(3):
         next(iterator)

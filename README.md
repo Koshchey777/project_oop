@@ -9,6 +9,9 @@
 
 + class Product
 + class Category
++ class LawnGrace(Product)
++ class Smartphone(Product)
++ class IterProducts
 
 ## Функции, представленные в проекте
 
