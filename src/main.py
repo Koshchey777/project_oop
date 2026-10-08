@@ -14,6 +14,8 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
+        if type(self) is not type(other):
+            raise TypeError("Складывать можно только экземпляры класса Product")
         return (self.__price * self.quantity) + (other.price * other.quantity)
 
     @classmethod
@@ -66,9 +68,12 @@ class Category:
         res = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {res} шт."
 
-    def add_product(self, Product):
-        self.__products.append(Product)
-        Category.product_count += 1
+    def add_product(self, product):
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            return "Складывать можно только экземпляры класса Product"
 
     @property
     def products(self):
