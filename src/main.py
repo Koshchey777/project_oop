@@ -1,14 +1,43 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
     name: str
     description: str
     price: float
     quantity: int
+
+    @abstractmethod
+    def __init__(self, name, description, price, quantity):
+        self.name = name
+        self.description = description
+        self.price = price
+        self.quantity = quantity
+
+
+class MixinLog:
+
+    def __init__(self, *args, **kwargs):
+        self.saved_args = args
+        self.saved_kwargs = kwargs
+        super().__init__(*args, **kwargs)
+
+    def __repr__(self):
+        args_str = ", ".join(repr(args) for args in self.saved_args)
+        kwargs_str = ", ".join(f"{k}={v!r}" for k, v in self.saved_kwargs.items())
+        all_parts = [args_str, kwargs_str]
+        params = ", ".join(p for p in all_parts if p)
+        return f"{self.__class__.__name__}({params})"
+
+
+class Product(MixinLog, BaseProduct):
 
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__(name, description, price, quantity)
 
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."

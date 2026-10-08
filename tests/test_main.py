@@ -188,3 +188,9 @@ def test_iter_independent_instances(category):
 
     assert next(iter2).name == "Apple"
     assert next(iter1).name == "Pear"
+
+
+def test_mixin():
+    p = Product("Продукт1", "Описание продукта", 1200, 10)
+    res = repr(p)
+    assert res == "Product('Продукт1', 'Описание продукта', 1200, 10)"
