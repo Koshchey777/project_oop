@@ -105,11 +105,11 @@ class Category:
             return "Складывать можно только экземпляры класса Product"
 
     @property
-    def products(self):
+    def products_list(self):
         return self.__products
 
     @property
-    def list_products(self):
+    def products(self):
         return "\n".join(str(product) for product in self.__products)
 
 
@@ -122,9 +122,9 @@ class IterProducts:
         return self
 
     def __next__(self):
-        if self.index < len(self.category.products):
-            product = self.category.products[self.index]
-            self.index += 1
-            return product
-        else:
+        products = self.category.products_list
+        if self.index >= len(products):
             raise StopIteration
+        product = products[self.index]
+        self.index += 1
+        return product

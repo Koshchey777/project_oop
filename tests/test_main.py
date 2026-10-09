@@ -13,13 +13,12 @@ def test_init_product(product):
 def test_init_category(category):
     assert category.name == "Test Category"
     assert category.description == "Test description"
-    assert len(category.products) == 3
+    assert len(category.products_list) == 3
     assert Category.category_count == 1
     assert Category.product_count == 3
 
 
 def test_category_count_multiple():
-    """Счётчики накапливаются при создании нескольких категорий."""
     p1 = Product("Apple", "Red", 10.0, 5)
     c1 = Category("Cat1", "Desc1", [p1])
     c2 = Category("Cat2", "Desc2", [p1, p1])
@@ -36,7 +35,7 @@ def test_new_product_creates_new():
     assert result.name == "Apple"
     assert result.price == 10.0
     assert result.quantity == 5
-    assert len(goods) == 0  # список не изменился
+    assert len(goods) == 0
 
 
 def test_new_product_updates_existing():
@@ -45,9 +44,9 @@ def test_new_product_updates_existing():
     data = {"name": "Apple", "description": "Red fruit", "price": 12.0, "quantity": 3}
     result = Product.new_product(data, goods)
 
-    assert result is p1  # возвращён тот же объект
-    assert result.quantity == 8  # 5 + 3
-    assert result.price == 12.0  # max(10, 12)
+    assert result is p1
+    assert result.quantity == 8
+    assert result.price == 12.0
 
 
 def test_new_product_updates_existing_lower_price():
@@ -98,12 +97,12 @@ def test_price_setter_lower_with_no(product, monkeypatch):
 def test_add_product(category):
     new_p = Product("Banana", "Yellow fruit", 8.0, 10)
     category.add_product(new_p)
-    assert len(category.products) == 4
-    assert category.products[-1].name == "Banana"
+    assert len(category.products_list) == 4
+    assert category.products_list[-1].name == "Banana"
 
 
 def test_list_products(category):
-    result = category.list_products
+    result = category.products
     assert isinstance(result, str)
     assert "Apple, 10.0 руб. Остаток: 5 шт" in result
     assert "Orange, 15.0 руб. Остаток: 3 шт" in result
