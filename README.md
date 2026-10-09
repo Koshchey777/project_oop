@@ -12,6 +12,8 @@
 + class LawnGrace(Product)
 + class Smartphone(Product)
 + class IterProducts
++ BaseProduct
++ MixinLog
 
 ## Функции, представленные в проекте
 
