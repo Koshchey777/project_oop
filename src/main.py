@@ -38,6 +38,8 @@ class Product(MixinLog, BaseProduct):
         self.__price = price
         self.quantity = quantity
         super().__init__(name, description, price, quantity)
+        if quantity <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
@@ -111,6 +113,16 @@ class Category:
     @property
     def products(self):
         return "\n".join(str(product) for product in self.__products)
+
+    def avg_price(self):
+        try:
+            price_product = []
+            for i in self.__products:
+                price_product.append(i.price)
+            result = round(sum(price_product) / len(self.__products), 2)
+            return result
+        except ZeroDivisionError:
+            return 0
 
 
 class IterProducts:
