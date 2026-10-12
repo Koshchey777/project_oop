@@ -193,3 +193,14 @@ def test_mixin():
     p = Product("Продукт1", "Описание продукта", 1200, 10)
     res = repr(p)
     assert res == "Product('Продукт1', 'Описание продукта', 1200, 10)"
+
+
+def test_avg_price(category):
+    res = category.avg_price()
+    assert res == 12.33
+
+
+def test_avg_price_error():
+    category_ = Category("Test Category", "Test description", [])
+    res = category_.avg_price()
+    assert res == 0
